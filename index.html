@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gethsemane SDA Church Announcements App</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .list-decimal.list-inside {
+            padding-left: 1.25rem; /* 20px */
+            text-indent: -1.25rem;
+        }
+
+        .list-decimal>li {
+            margin-left: 0.5rem;
+            padding-left: 0.5rem;
+            display: list-item;
+        }
+
+        .list-decimal li::marker {
+            font-weight: bold;
+            color: #4f46e5;
+        }
+
+     </style>   
+  
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white py-4 text-center shadow-md">
+        <h1 class="text-2xl font-semibold">Gethsemane Church Announcements App</h1>
+    </header>
+
+    <main class="container mx-auto mt-6 p-4">
+        <section id="thought-of-the-day" class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">La Pensée du Jour</h2>
+            <div class="flex justify-between items-center">
+                <p id="daily-thought" class="text-gray-700 break-words">Loading...</p>
+            </div>
+            <div class="mt-4 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="new-thought-text" placeholder="Enter your text for the day"
+                       class="border border-gray-300 rounded-md p-2 w-full sm:w-auto">
+                <button id="add-thought-button"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md mt-2 sm:mt-0">
+                    Add Pensée
+                </button>
+            </div>
+        </section>
+
+        <section id="sunrise-sunset" class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">Sunset</h2>
+            <div id="sunrise-sunset-info" class="grid grid-cols-1 sm:grid-cols-1 gap-4">
+                <div><p class="text-gray-700 text-center" id="day-name-0">Loading...</p><p id="sunset-time-0" class="text-center">Loading...</p></div>
+            </div>
+        </section>
+
+        <section id="announcements" class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">Announcements</h2>
+            <ul id="announcement-list" class="list-decimal list-inside">
+            </ul>
+            <div class="mt-4 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="new-announcement-input" placeholder="Enter new announcement"
+                       class="border border-gray-300 rounded-md p-2 w-full sm:w-auto">
+                <button id="add-announcement-button"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md mt-2 sm:mt-0">
+                    Add Announcement
+                </button>
+            </div>
+        </section>
+
+        <section id="departments" class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">Departments</h2>
+            <ul id="department-list" class="list-decimal list-inside">
+            </ul>
+            <div class="mt-4 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="new-department-name-input" placeholder="Enter new department name"
+                       class="border border-gray-300 rounded-md p-2 w-full sm:w-auto">
+                <button id="add-department-button"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md mt-2 sm:mt-0">
+                    Add Department
+                </button>
+            </div>
+        </section>
+
+
+
+        <section id="miscellaneous" class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">Miscellaneous (Annonces divers)</h2>
+            <ul id="sermon-list" class="list-decimal list-inside">
+            </ul>
+            <div class="mt-4 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="new-sermon-title-input" placeholder="Enter new title"
+                       class="border border-gray-300 rounded-md p-2 w-full sm:w-auto">
+                <input type="text" id="new-sermon-speaker-input" placeholder="Enter new name"
+                       class="border border-gray-300 rounded-md p-2 w-full sm:w-auto mt-2 sm:mt-0">
+                <button id="add-sermon-button"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md mt-2 sm:mt-0">
+                    Add Item
+                </button>
+            </div>
+        </section>
+
+        <section id="birthdays" class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">Birthdays</h2>
+            <ul id="birthday-list" class="list-decimal list-inside">
+            </ul>
+            <div class="mt-4 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="new-birthday-name-input" placeholder="Enter new name"
+                       class="border border-gray-300 rounded-md p-2 w-full sm:w-auto">
+                <input type="date" id="new-birthday-date-input"
+                       class="border border-gray-300 rounded-md p-2 w-full sm:w-auto mt-2 sm:mt-0">
+                <button id="add-birthday-button"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md mt-2 sm:mt-0">
+                    Add Birthday
+                </button>
+            </div>
+        </section>
+
+        <section id="events" class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">Upcoming Events</h2>
+            <ul id="event-list" class="list-decimal list-inside">
+            </ul>
+            <div class="mt-4 flex flex-col sm:flex-row gap-2">
+                <input type="text" id="new-event-input" placeholder="Enter new event"
+                       class="border border-gray-300 rounded-md p-2 w-full sm:w-auto">
+                <input type="date" id="new-event-date"
+                       class="border border-gray-300 rounded-md p-2 w-full sm:w-auto mt-2 sm:mt-0">
+                <button id="add-event-button"
+                        class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-3 rounded-md mt-2 sm:mt-0">
+                    Add Event
+                </button>
+            </div>
+        </section>
+
+        <section id="donations" class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h2 class="text-xl font-semibold text-blue-700 mb-4">Building Fund Donations</h2>
+            <p class="text-gray-700 mb-4">Thank you for your generosity! You can donate online or in person.</p>
+            <button id="donate-button" class="bg-yellow-500 hover:bg-yellow-700 text-gray-800 font-bold py-2 px-4 rounded-md">
+                Donate Now
+            </button>
+            <div id="donation-form" class="mt-4" style="display: none;">
+                <input type="number" id="donation-amount" placeholder="Enter amount"
+                       class="border border-gray-300 rounded-md p-2 w-full">
+                <button id="confirm-donation-button"
+                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-3 rounded-md mt-2 w-full">
+                    Confirm Donation
+                </button>
+                <p id="donation-message" class="mt-2 text-yellow-600 font-semibold"></p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-4 text-center mt-8">
+        <p>&copy; 2025 Church App. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const announcementList = document.getElementById('announcement-list');
+        const newAnnouncementInput = document.getElementById('new-announcement-input');
+        const addAnnouncementButton = document.getElementById('add-announcement-button');
+
+        const eventList = document.getElementById('event-list');
+        const newEventInput = document.getElementById('new-event-input');
+        const newEventDateInput = document.getElementById('new-event-date');
+        const addEventButton = document.getElementById('add-event-button');
+
+        const sermonList = document.getElementById('sermon-list');
+        const newSermonTitleInput = document.getElementById('new-sermon-title-input');
+        const newSermonSpeakerInput = document.getElementById('new-sermon-speaker-input');
+        const addSermonButton = document.getElementById('add-sermon-button');
+
+        const departmentList = document.getElementById('department-list');
+        const newDepartmentNameInput = document.getElementById('new-department-name-input');
+        const addDepartmentButton = document.getElementById('add-department-button');
+
+        const donateButton = document.getElementById('donate-button');
+        const donationForm = document.getElementById('donation-form');
+        const donationAmountInput = document.getElementById('donation-amount');
+        const confirmDonationButton = document.getElementById('confirm-donation-button');
+        const donationMessage = document.getElementById('donation-message');
+
+        const sunsetTimeDisplays = [];
+        for (let i = 0; i < 1; i++) {
+            sunsetTimeDisplays.push(document.getElementById(`sunset-time-${i}`));
+        }
+
+        const dayNameDisplays = [];
+        for (let i = 0; i < 1; i++) {
+            dayNameDisplays.push(document.getElementById(`day-name-${i}`));
+        }
+
+        const dailyThoughtDisplay = document.getElementById('daily-thought');
+        const newThoughtTextInput = document.getElementById('new-thought-text');
+        const addThoughtButton = document.getElementById('add-thought-button');
+
+        const newBirthdayNameInput = document.getElementById('new-birthday-name-input');
+        const newBirthdayDateInput = document.getElementById('new-birthday-date-input');
+        const addBirthdayButton = document.getElementById('add-birthday-button');
+        const birthdayList = document.getElementById('birthday-list');
+
+
+        let announcements = [];
+
+        let events = [];
+
+        let sermons = [];
+
+        let departments = [];
+
+        let birthdays = [];
+
+        let currentThought = "";
+
+
+        function displayAnnouncements() {
+            announcementList.innerHTML = '';
+            announcements.forEach((announcement, index) => {
+                const li = document.createElement('li');
+                li.textContent = announcement;
+                li.style.wordWrap = 'break-word';
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md ml-2 text-xs";
+                deleteButton.addEventListener('click', () => {
+                    deleteAnnouncement(index);
+                });
+                li.appendChild(deleteButton);
+                announcementList.appendChild(li);
+            });
+        }
+
+        function displayEvents() {
+            eventList.innerHTML = '';
+            events.forEach((event, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${event.name} - ${event.date}`;
+                li.style.wordWrap = 'break-word';
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md ml-2 text-xs";
+                deleteButton.addEventListener('click', () => {
+                    deleteEvent(index);
+                });
+                li.appendChild(deleteButton);
+                eventList.appendChild(li);
+            });
+        }
+
+        function displaySermons() {
+            sermonList.innerHTML = '';
+            sermons.forEach((sermon, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${sermon.title} by ${sermon.speaker}`;
+                li.style.wordWrap = 'break-word';
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md ml-2 text-xs";
+                deleteButton.addEventListener('click', () => {
+                    deleteSermon(index);
+                });
+                li.appendChild(deleteButton);
+                sermonList.appendChild(li);
+            });
+        }
+
+        function displayDepartments() {
+            departmentList.innerHTML = '';
+            departments.forEach((department, index) => {
+                const li = document.createElement('li');
+                li.textContent = department;
+                li.style.wordWrap = 'break-word';
+                 const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md ml-2 text-xs";
+                deleteButton.addEventListener('click', () => {
+                    deleteDepartment(index);
+                });
+                li.appendChild(deleteButton);
+                departmentList.appendChild(li);
+            });
+        }
+
+        function displayBirthdays() {
+            birthdayList.innerHTML = '';
+            birthdays.forEach((birthday, index) => {
+                const li = document.createElement('li');
+                li.textContent = `${birthday.name} - ${birthday.date}`;
+                li.style.wordWrap = 'break-word';
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = "bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded-md ml-2 text-xs";
+                deleteButton.addEventListener('click', () => {
+                    deleteBirthday(index);
+                });
+                li.appendChild(deleteButton);
+                birthdayList.appendChild(li);
+            });
+        }
+
+        // Function to delete an announcement
+        function deleteAnnouncement(index) {
+            announcements.splice(index, 1); // Remove the announcement at the given index
+            displayAnnouncements(); // Re-render the list to update the display
+        }
+
+        // Function to delete an event
+        function deleteEvent(index) {
+            events.splice(index, 1);
+            displayEvents();
+        }
+
+        // Function to delete a sermon
+        function deleteSermon(index) {
+            sermons.splice(index, 1);
+            displaySermons();
+        }
+
+        function deleteDepartment(index) {
+            departments.splice(index, 1);
+            displayDepartments();
+        }
+
+        function deleteBirthday(index) {
+            birthdays.splice(index, 1);
+            displayBirthdays();
+        }
+
+        function displayDailyThought() {
+            const text = newThoughtTextInput.value.trim();
+            if (text) {
+                dailyThoughtDisplay.textContent =  text;
+                dailyThoughtDisplay.style.wordWrap = 'break-word';
+                currentThought = text;
+            } else {
+                dailyThoughtDisplay.textContent = "Please enter your thought for the day.";
+                currentThought = "";
+            }
+            newThoughtTextInput.value = '';
+        }
+
+
+        addAnnouncementButton.addEventListener('click', () => {
+            const newAnnouncement = newAnnouncementInput.value;
+            if (newAnnouncement.trim() !== '') {
+                announcements.push(newAnnouncement);
+                displayAnnouncements();
+                newAnnouncementInput.value = '';
+            } else {
+                alert("Please enter an announcement!");
+            }
+        });
+
+        addEventButton.addEventListener('click', () => {
+            const newEventName = newEventInput.value;
+            const newEventDate = newEventDateInput.value;
+            if (newEventName.trim() !== '' && newEventDate !== '') {
+                events.push({ name: newEventName, date: newEventDate });
+                displayEvents();
+                newEventInput.value = '';
+                newEventDateInput.value = '';
+            } else {
+                alert("Please enter both event name and date!");
+            }
+        });
+
+        addSermonButton.addEventListener('click', () => {
+            const newSermonTitle = newSermonTitleInput.value;
+            const newSermonSpeaker = newSermonSpeakerInput.value;
+            if (newSermonTitle.trim() !== '' && newSermonSpeaker.trim() !== '') {
+                sermons.push({ title: newSermonTitle, speaker: newSermonSpeaker });
+                displaySermons();
+                newSermonTitleInput.value = '';
+                newSermonSpeakerInput.value = '';
+            } else {
+                alert("Please enter both sermon title and speaker!");
+            }
+        });
+
+        addDepartmentButton.addEventListener('click', () => {
+            const newDepartmentName = newDepartmentNameInput.value;
+            if (newDepartmentName.trim() !== '') {
+                departments.push(newDepartmentName);
+                displayDepartments();
+                newDepartmentNameInput.value = '';
+            } else {
+                alert("Please enter a department name!");
+            }
+        });
+
+        addBirthdayButton.addEventListener('click', () => {
+            const newBirthdayName = newBirthdayNameInput.value;
+            const newBirthdayDate = newBirthdayDateInput.value;
+            if (newBirthdayName.trim() !== '' && newBirthdayDate !== '') {
+                birthdays.push({ name: newBirthdayName, date: newBirthdayDate });
+                displayBirthdays();
+                newBirthdayNameInput.value = '';
+                newBirthdayDateInput.value = '';
+            } else {
+                alert("Please enter both name and date!");
+            }
+        });
+
+        donateButton.addEventListener('click', () => {
+            donationForm.style.display = donationForm.style.display === 'none' ? 'block' : 'none';
+            donationMessage.textContent = '';
+        });
+
+        confirmDonationButton.addEventListener('click', () => {
+            const donationAmount = parseFloat(donationAmountInput.value);
+            if (!isNaN(donationAmount) && donationAmount > 0) {
+                donationMessage.textContent = `Thank you for your donation of $${donationAmount}!`;
+                donationAmountInput.value = '';
+                setTimeout(() => {
+                    donationForm.style.display = 'none';
+                    donationMessage.textContent = '';
+                }, 3000);
+            } else {
+                donationMessage.textContent = "Please enter a valid donation amount.";
+            }
+        });
+
+
+
+        addThoughtButton.addEventListener('click', () => {
+            displayDailyThought();
+        });
+
+
+
+        displayAnnouncements();
+        displayEvents();
+        displaySermons();
+        displayDepartments();
+        displayDailyThought();
+        getSunsetTimesForToday();
+        displayBirthdays();
+
+        // Function to fetch sunrise and sunset data for the current day
+        function getSunsetTimesForToday() {
+            const latitude = 27.2961; // Port St. Lucie, FL latitude
+            const longitude = -80.3117; // Port St. Lucie, FL longitude
+            const today = new Date();
+            const todayDate = today.toISOString().split('T')[0];
+
+
+            // Create an array of API URLs for each day of the week
+            const sunsetApiUrl = `https://api.sunrise-sunset.org/json?lat=${latitude}&lng=${longitude}&date=${todayDate}&formatted=0`;
+
+
+            // Fetch data for each day
+            fetch(sunsetApiUrl)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && data.results && data.status === 'OK') {
+                        const sunsetUTC = data.results.sunset;
+                        const sunsetLocal = new Date(sunsetUTC).toLocaleString('en-US', { timeZone: 'America/New_York' });
+                        sunsetTimeDisplays[0].textContent = sunsetLocal;
+                        dayNameDisplays[0].textContent = new Date().toLocaleDateString('en-US', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' });
+                    } else {
+                        sunsetTimeDisplays[0].textContent = 'Error';
+                        dayNameDisplays[0].textContent = 'Error';
+                        console.error(`Error fetching sunset data for today:`, data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    sunsetTimeDisplays.forEach(display => {
+                        display.textContent = 'Error';
+                    });
+                    dayNameDisplays.forEach(display => {
+                        display.textContent = 'Error';
+                    });
+                });
+        }
+
+        // Call the function to fetch and display sunrise/sunset data
+        getSunsetTimesForToday();
+    </script>
+</body>
+</html>
